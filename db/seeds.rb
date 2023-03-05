@@ -16,3 +16,13 @@ require 'faker'
       user_id: user.id
     )
   end
+  
+# Each user creates some projects
+rand(1..5).times do
+    Project.create!(
+      title: Faker::Book.title,
+      description: Faker::Lorem.paragraphs(number: rand(1..3)).join('\n'),
+      user_id: user.id
+    )
+  end
+end
