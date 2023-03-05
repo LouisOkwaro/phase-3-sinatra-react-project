@@ -18,3 +18,15 @@ get '/skills/:user_id' do
     status 403
   end
 end
+
+post '/skills/create' do
+    if Skill.where(user_id: params[:user_id]).count >= 10
+      { error: "You cannot have more than 10 skills" }.to_json
+    else
+      skill = Skill.new(user_id: params[:user_id], name: params[:name])
+      if skill.save
+      else
+        { error: "Error creating skill" }.to_json
+      end
+    end
+  end
