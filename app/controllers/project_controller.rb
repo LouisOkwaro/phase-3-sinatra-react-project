@@ -36,6 +36,7 @@ class ProjectController < Sinatra::Base
           status 403
         end
     end
+
     #  Delete projects from database
     delete '/projects/delete/:id' do
         project = Project.find_by(id: params[:id])
@@ -48,3 +49,21 @@ class ProjectController < Sinatra::Base
             { error: "Project not found" }.to_json
           end
       end
+      
+      put '/projects/update/:user_id' do
+
+        # project = Project.find(data[:user_id])
+
+        project = Project.find(params[:user_id])
+        title = params[:title]
+        description = params[:description]
+  
+     # Update the project data
+        if project.update(title: title, description: description)
+        else
+          status 400
+          json project.errors
+        end
+    end
+
+  end
