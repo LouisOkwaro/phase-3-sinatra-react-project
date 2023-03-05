@@ -30,7 +30,7 @@ post '/skills/create' do
       end
     end
   end
-  
+
   put '/skills/update/:user_id' do
     skill = Skill.where(user_id: params[:user_id])
     name = params[:name]
@@ -39,3 +39,17 @@ post '/skills/create' do
       status 400
     end
   end
+  delete '/skills/:id' do
+    @user = current_user
+    @skill = @user.skills.find(params[:id])
+    @skill.destroy
+    redirect '/skills'
+end
+  
+helpers do
+    def current_user
+      User.find_by(id: session[:user_id])
+    end
+end
+
+end
