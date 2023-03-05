@@ -25,3 +25,14 @@ class ProjectController < Sinatra::Base
           { errors: project.errors }.to_json
         end
     end
+
+    # List all the user's projects
+    get '/projects/:user_id' do
+        project = Project.where(user_id: params[:user_id])
+
+        if project
+          project.to_json
+        else
+          status 403
+        end
+    end
