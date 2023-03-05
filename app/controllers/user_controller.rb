@@ -23,3 +23,13 @@ class UserController < Sinatra::Base
         email: data['email'],
         password: data['password']
       )
+      
+       # Save the user to the database
+       if user.save
+        # Return success message
+        { message: 'Account created successfully' }.to_json
+      else
+        # Return error message
+        halt 400, { error: user.errors.full_messages.join(', ') }.to_json
+      end
+    end
