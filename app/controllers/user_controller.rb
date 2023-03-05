@@ -23,7 +23,7 @@ class UserController < Sinatra::Base
         email: data['email'],
         password: data['password']
       )
-      
+
        # Save the user to the database
        if user.save
         # Return success message
@@ -33,3 +33,24 @@ class UserController < Sinatra::Base
         halt 400, { error: user.errors.full_messages.join(', ') }.to_json
       end
     end
+
+    post '/users/login' do
+
+        # Get user information from request body
+        data = JSON.parse(request.body.read)
+    
+        # Find user by email
+        user = User.find_by(email: data['email'])
+    
+        # Check if user exists and password matches
+        if user && user.authenticate(data['password'])
+          # Return success message with user details
+          halt 200, { user_id: user.id, username: user.name }.to_json
+          session[:user_id] = user.id
+          puts session[:user_id]
+  
+        else
+          # Return error message
+          halt 401, { error: 'Invalid email or password' }.to_json
+        end
+      end
