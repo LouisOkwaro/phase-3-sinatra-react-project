@@ -36,3 +36,15 @@ class ProjectController < Sinatra::Base
           status 403
         end
     end
+    #  Delete projects from database
+    delete '/projects/delete/:id' do
+        project = Project.find_by(id: params[:id])
+          
+          if project
+            project.destroy
+            status 204
+          else
+            status 404
+            { error: "Project not found" }.to_json
+          end
+      end
