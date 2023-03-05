@@ -54,3 +54,17 @@ class UserController < Sinatra::Base
           halt 401, { error: 'Invalid email or password' }.to_json
         end
       end
+      
+      get '/users/logout' do
+      
+        if session[:user_id]
+          # Remove user id from session
+        session.clear
+        halt 200, { message: 'User logged out successfully' }.to_json
+        else 
+          {error: 'Please log in'}
+          halt 403
+        end      
+      end
+        
+  end
