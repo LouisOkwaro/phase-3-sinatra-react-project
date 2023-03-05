@@ -30,3 +30,12 @@ post '/skills/create' do
       end
     end
   end
+  
+  put '/skills/update/:user_id' do
+    skill = Skill.where(user_id: params[:user_id])
+    name = params[:name]
+    if skill.update(name: name)
+    else
+      status 400
+    end
+  end
