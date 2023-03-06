@@ -6,7 +6,6 @@ class ProjectController < Sinatra::Base
     set :default_content_type, 'application/json'
 
 
-    # Create a new project with a user_id to help list users projects only
     post '/projects/create' do
         request.body.rewind
         data = JSON.parse(request.body.read)
@@ -26,7 +25,6 @@ class ProjectController < Sinatra::Base
         end
     end
 
-    # List all the user's projects
     get '/projects/:user_id' do
         project = Project.where(user_id: params[:user_id])
 
@@ -37,7 +35,6 @@ class ProjectController < Sinatra::Base
         end
     end
 
-    #  Delete projects from database
     delete '/projects/delete/:id' do
         project = Project.find_by(id: params[:id])
           
@@ -52,13 +49,11 @@ class ProjectController < Sinatra::Base
       
       put '/projects/update/:user_id' do
 
-        # project = Project.find(data[:user_id])
 
         project = Project.find(params[:user_id])
         title = params[:title]
         description = params[:description]
   
-     # Update the project data
         if project.update(title: title, description: description)
         else
           status 400
